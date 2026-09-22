@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>알고리즘 핵심 노트</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- PrismJS for Syntax Highlighting (Dark Theme) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+            background-color: #f3f4f6;
+        }
+        /* Custom scrollbar for code blocks */
+        pre::-webkit-scrollbar {
+            height: 8px;
+        }
+        pre::-webkit-scrollbar-track {
+            background: #2d3748;
+            border-radius: 4px;
+        }
+        pre::-webkit-scrollbar-thumb {
+            background: #4a5568;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased selection:bg-blue-200 selection:text-blue-900">
+
+    <header class="bg-white shadow-sm sticky top-0 z-10">
+        <div class="max-w-4xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex items-center justify-between">
+            <h1 class="text-2xl font-bold text-blue-600 flex items-center gap-2">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                알고리즘 요점 정리
+            </h1>
+            
+            <!-- 햄버거 목차 메뉴 -->
+            <div class="relative">
+                <button id="menu-btn" class="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors focus:outline-none" aria-label="목차 열기">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+
+                <!-- 드롭다운 목차 -->
+                <div id="toc-menu" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden z-50">
+                    <div class="py-2">
+                        <a href="#sec-palindrome" class="toc-link block px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 border-b border-gray-50">1. String - 회문</a>
+                        <a href="#sec-tree" class="toc-link block px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 border-b border-gray-50">2. Tree - 순회</a>
+                        <a href="#sec-stack" class="toc-link block px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 border-b border-gray-50">3. Stack 연습문제</a>
+                        <a href="#sec-queue" class="toc-link block px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700">4. Queue BFS 예제</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 sm:px-6 lg:px-8 space-y-8">
+        
+        <section id="sec-palindrome" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden scroll-mt-24">
+            <div class="p-5 sm:p-6 border-b border-gray-100 bg-gray-50">
+                <h2 class="text-xl font-bold text-gray-900">1. String - 회문 (Palindrome)</h2>
+                <p class="mt-2 text-sm text-gray-600">"기러기", "토마토"처럼 똑바로 읽어도 거꾸로 읽어도 똑같은 문자열을 판별합니다.</p>
+            </div>
+            <div class="p-5 sm:p-6 space-y-4">
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg text-sm text-blue-800">
+                    <strong>💡 핵심 원리:</strong> 전체 길이를 순회할 필요 없이, 문자열 길이의 <strong>절반(len/2)</strong>까지만 순회하며 양 끝에서부터 마주보는 문자가 같은지 비교합니다.
+                </div>
+                <div class="relative">
+<pre><code class="language-python">def is_palindrome(txt):
+    n = len(txt)
+    # 문자열 길이의 절반까지만 검사
+    for i in range(n // 2):
+        # 앞쪽 글자와 뒤쪽 대칭되는 글자 비교
+        if txt[i] != txt[n - 1 - i]:
+            return False # 하나라도 다르면 회문이 아님
+    return True
+
+# Test
+print(is_palindrome("토마토")) # True
+print(is_palindrome("algorithm")) # False</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-tree" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden scroll-mt-24">
+            <div class="p-5 sm:p-6 border-b border-gray-100 bg-gray-50">
+                <h2 class="text-xl font-bold text-gray-900">2. Tree - 순회 (Traversal)</h2>
+                <p class="mt-2 text-sm text-gray-600">비선형 구조인 트리의 모든 노드를 중복 없이 체계적으로 방문하는 방법입니다.</p>
+            </div>
+            <div class="p-5 sm:p-6 space-y-4">
+                <ul class="list-disc pl-5 space-y-2 text-sm text-gray-700">
+                    <li><span class="font-semibold text-gray-900">전위 순회 (Preorder, VLR):</span> 부모 방문 &rarr; 왼쪽 자식 &rarr; 오른쪽 자식</li>
+                    <li><span class="font-semibold text-gray-900">중위 순회 (Inorder, LVR):</span> 왼쪽 자식 &rarr; 부모 방문 &rarr; 오른쪽 자식</li>
+                    <li><span class="font-semibold text-gray-900">후위 순회 (Postorder, LRV):</span> 왼쪽 자식 &rarr; 오른쪽 자식 &rarr; 부모 방문</li>
+                </ul>
+                <div class="relative mt-4">
+<pre><code class="language-python">class Node:
+    def __init__(self, item):
+        self.item = item
+        self.left = None
+        self.right = None
+
+# VLR
+def preorder_traverse(T):
+    if T:
+        print(T.item, end=' ') # Visit (부모 처리)
+        preorder_traverse(T.left)
+        preorder_traverse(T.right)
+
+# LVR
+def inorder_traverse(T):
+    if T:
+        inorder_traverse(T.left)
+        print(T.item, end=' ') # Visit
+        inorder_traverse(T.right)
+
+# LRV
+def postorder_traverse(T):
+    if T:
+        postorder_traverse(T.left)
+        postorder_traverse(T.right)
+        print(T.item, end=' ') # Visit</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-stack" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden relative scroll-mt-24">
+            <div class="absolute top-4 right-4 bg-yellow-100 text-yellow-800 text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+                * 손으로 따라가기 필수
+            </div>
+            <div class="p-5 sm:p-6 border-b border-gray-100 bg-gray-50">
+                <h2 class="text-xl font-bold text-gray-900 pr-24">3. Stack 연습문제 (구현 및 추적)</h2>
+                <p class="mt-2 text-sm text-gray-600">LIFO(후입선출) 구조. 코딩 전 종이에 그림을 그려 Push/Pop 상태를 확인하세요.</p>
+            </div>
+            <div class="p-5 sm:p-6 space-y-4">
+                 <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-r-lg text-sm text-yellow-900">
+                    <strong>✍️ 학습 가이드:</strong> 빈 배열 <code>[]</code>을 그리고, 데이터가 들어올 때 화살표(Top)가 이동하는 모습, 나갈 때 지워지는 모습을 직접 그려보는 것이 구현보다 중요합니다.
+                </div>
+                <div class="relative">
+<pre><code class="language-python"># 파이썬 리스트를 이용한 스택 기본 구현
+stack = []
+
+def push(item):
+    stack.append(item)
+    print(f"Push: {item} -> 현재 스택: {stack}")
+
+def pop():
+    if len(stack) == 0:
+        return "Stack is Empty"
+    item = stack.pop()
+    print(f"Pop : {item} -> 현재 스택: {stack}")
+    return item
+
+# 추적 연습 (직접 예상해보고 실행 결과와 비교)
+push('A')
+push('B')
+push('C')
+pop()
+pop()
+push('D')</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-queue" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden relative scroll-mt-24">
+            <div class="absolute top-4 right-4 bg-yellow-100 text-yellow-800 text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+                * 손으로 따라가기 필수
+            </div>
+            <div class="p-5 sm:p-6 border-b border-gray-100 bg-gray-50">
+                <h2 class="text-xl font-bold text-gray-900 pr-24">4. Queue BFS 예제 3</h2>
+                <p class="mt-2 text-sm text-gray-600">너비 우선 탐색. 인접 정점을 큐에 넣고 순서대로 방문합니다.</p>
+            </div>
+            <div class="p-5 sm:p-6 space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm mb-4">
+                    <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                        <span class="font-bold text-gray-700">입력 (V=7, E=8):</span><br>
+                        1 2 1 3 2 4 2 5 4 6 5 6 6 7 3 7
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                        <span class="font-bold text-gray-700">예상 출력 (시작점 1):</span><br>
+                        1 2 3 4 5 7 6
+                    </div>
+                </div>
+                
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-r-lg text-sm text-yellow-900">
+                    <strong>✍️ 학습 가이드:</strong> <code>visited</code> 배열(방문 체크)과 <code>queue</code>(대기열) 배열 2개를 종이에 그리고, <code>dequeue</code>된 정점의 인접 정점들이 어떻게 <code>enqueue</code> 되는지 한 단계씩 추적해 보세요.
+                </div>
+                <div class="relative">
+<pre><code class="language-python">def bfs(G, v, n): # 그래프 G, 시작점 v, 정점 개수 n
+    visited = [0] * (n + 1) # 1. 방문 배열 초기화
+    queue = []              # 2. 큐 생성
+    
+    queue.append(v)         # 시작점 enqueue
+    visited[v] = 1          # 시작점 방문 표시
+    
+    while queue:            # 큐가 비어있지 않은 동안 반복
+        t = queue.pop(0)    # dequeue (파이썬 리스트 pop(0)은 느리나 개념상 사용)
+        print(t, end=' ')   # 방문한 정점 출력 (할 일 처리)
+        
+        for i in G[t]:      # t와 연결된 모든 인접 정점 i에 대해
+            if not visited[i]:      # 아직 방문하지 않았다면
+                queue.append(i)     # 큐에 넣고
+                visited[i] = visited[t] + 1 # 방문 표시 (거리 기록)
+
+# 데이터 세팅 (인접 리스트 방식)
+V, E = 7, 8
+edges = [1, 2, 1, 3, 2, 4, 2, 5, 4, 6, 5, 6, 6, 7, 3, 7]
+G = [[] for _ in range(V + 1)]
+
+for i in range(0, len(edges), 2):
+    u, v = edges[i], edges[i+1]
+    G[u].append(v)
+    G[v].append(u) # 양방향 간선이라고 가정
+
+print("BFS 탐색 경로:")
+bfs(G, 1, V) # 결과: 1 2 3 4 5 7 6</code></pre>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center text-sm text-gray-500 py-8">
+        &copy; 2026 Algorithm Study Notes. All rights reserved.
+    </footer>
+
+    <!-- PrismJS for Syntax Highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuBtn = document.getElementById('menu-btn');
+            const tocMenu = document.getElementById('toc-menu');
+            const tocLinks = document.querySelectorAll('.toc-link');
+
+            // 햄버거 버튼 클릭 시 목차 토글
+            menuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                tocMenu.classList.toggle('hidden');
+            });
+
+            // 목차 내부의 링크 클릭 시 드롭다운 닫기
+            tocLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    tocMenu.classList.add('hidden');
+                });
+            });
+
+            // 목차 영역 외부 클릭 시 드롭다운 닫기
+            document.addEventListener('click', (event) => {
+                if (!menuBtn.contains(event.target) && !tocMenu.contains(event.target)) {
+                    tocMenu.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
